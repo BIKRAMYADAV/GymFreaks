@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import EditProgress from '../components/EditProgress'
+import NewEntry from '../components/NewEntry'
 
 interface Ientry {
   id: number
@@ -17,11 +19,41 @@ function Progress() {
   const [editing, setEditing] = useState<Ientry | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [progressData, setProgressData] = useState<Ientry[]>(progressDataInitial)
+const [newEntryModalOpen, setNewEntryModalOpen] = useState(false);
+const [newEntry, setNewEntry] = useState<Ientry>({
+  id: Date.now(),
+  date: '',
+  exercises: '',
+  protein: 0,
+});
 
-  const handleEdit = (entry: Ientry) => {
-    setEditing({ ...entry })
-    setModalOpen(true)
-  }
+const handleNewChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = e.target;
+  setNewEntry((prev) => ({
+    ...prev,
+    [name]: name === 'protein' ? parseInt(value) : value,
+  }));
+};
+
+const handleAddNewEntry = () => {
+  if (!newEntry.date || !newEntry.exercises) return;
+
+  setProgressData((prev) => [
+    ...prev,
+    { ...newEntry, id: Date.now() },
+  ]);
+
+  setNewEntry({
+    id: Date.now(),
+    date: '',
+    exercises: '',
+    protein: 0,
+  });
+
+  setNewEntryModalOpen(false);
+};
+
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -33,6 +65,11 @@ function Progress() {
           }
         : null
     )
+  }
+
+      const handleEdit = (entry: Ientry) => {
+    setEditing({ ...entry })
+    setModalOpen(true)
   }
 
   const handleSave = () => {
@@ -80,61 +117,33 @@ function Progress() {
 
         {/* Button to log a new entry */}
         <div className="flex justify-center mt-8">
-          <button className="px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-teal-400 text-white text-lg font-semibold shadow-md hover:scale-105 transition">
-            ➕ Log New Entry
-          </button>
+         <button
+  onClick={() => setNewEntryModalOpen(true)}
+  className="px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-teal-400 text-white text-lg font-semibold shadow-md hover:scale-105 transition"
+>
+  ➕ Log New Entry
+</button>
+
         </div>
       </div>
+      {newEntryModalOpen && (
+  <NewEntry
+    newEntry={newEntry}
+    handleChange={handleNewChange}
+    handleAddNewEntry={handleAddNewEntry}
+    setNewEntryModalOpen={setNewEntryModalOpen}
+  />
+)}
+
 
       {/* Modal */}
       {modalOpen && editing && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
-            <h3 className="text-2xl font-bold mb-4 text-gray-800">Edit Entry</h3>
-
-            <label className="block mb-2 text-sm font-medium text-gray-700">Date</label>
-            <input
-              type="date"
-              name="date"
-              value={editing.date}
-              onChange={handleChange}
-              className="w-full p-2 mb-4 border border-gray-300 rounded"
-            />
-
-            <label className="block mb-2 text-sm font-medium text-gray-700">Exercises</label>
-            <input
-              type="text"
-              name="exercises"
-              value={editing.exercises}
-              onChange={handleChange}
-              className="w-full p-2 mb-4 border border-gray-300 rounded"
-            />
-
-            <label className="block mb-2 text-sm font-medium text-gray-700">Protein Intake (g)</label>
-            <input
-              type="number"
-              name="protein"
-              value={editing.protein}
-              onChange={handleChange}
-              className="w-full p-2 mb-4 border border-gray-300 rounded"
-            />
-
-            <div className="flex justify-end gap-2 mt-4">
-              <button
-                onClick={() => setModalOpen(false)}
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSave}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
+         <EditProgress
+    editing={editing}
+    handleChange={handleChange}
+    handleSave={handleSave}
+    setModalOpen={setModalOpen}
+  />
       )}
     </div>
   )
