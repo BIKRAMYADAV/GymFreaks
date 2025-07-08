@@ -41,23 +41,33 @@ const handleNewChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   }));
 };
 
-const handleAddNewEntry = () => {
+const handleAddNewEntry = async () => {
   if (!newEntry.date || !newEntry.exercises) return;
 
-  setProgressData((prev) => [
-    ...prev,
-    { ...newEntry, id: Date.now() },
-  ]);
+  try {
+    const response = await axios.post('http://localhost:3000/add-data', {
+      date: newEntry.date,
+      exercises: newEntry.exercises,
+      protein: newEntry.protein,
+    });
 
-  setNewEntry({
-    id: Date.now(),
-    date: '',
-    exercises: '',
-    protein: 0,
-  });
+    // Add the saved entry to state
+    setProgressData((prev) => [...prev, response.data.data]);
 
-  setNewEntryModalOpen(false);
+    // Reset input
+    setNewEntry({
+      id: Date.now(),
+      date: '',
+      exercises: '',
+      protein: 0,
+    });
+
+    setNewEntryModalOpen(false);
+  } catch (error) {
+    console.error('There was an error in adding the new entry', error);
+  }
 };
+
 
 
 
