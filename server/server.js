@@ -1,4 +1,5 @@
 const dotenv = require('dotenv')
+const cors = require('cors')
 dotenv.config()
 const PORT = process.env.PORT 
 const URI = process.env.URI
@@ -10,6 +11,7 @@ const progressRoutes = require('./routes/progressRoutes')
 
 //middleware
 app.use(express.json());
+app.use(cors());
 progressRoutes(app);
 
 

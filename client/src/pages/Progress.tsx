@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import EditProgress from '../components/EditProgress'
 import NewEntry from '../components/NewEntry'
+import { useEffect } from 'react'
+import axios from 'axios'
+
 
 interface Ientry {
   id: number
@@ -14,6 +17,9 @@ const progressDataInitial: Ientry[] = [
   { id: 2, date: '2025-07-02', exercises: 'Squats, Lunges', protein: 90 },
   { id: 3, date: '2025-07-03', exercises: 'Deadlifts, Bench Press', protein: 100 },
 ]
+
+
+
 
 function Progress() {
   const [editing, setEditing] = useState<Ientry | null>(null)
@@ -79,6 +85,21 @@ const handleAddNewEntry = () => {
     )
     setModalOpen(false)
   }
+
+  //useeffect
+  useEffect(() => {
+    const fetchProgress = async () => {
+      try{
+       const fetchedData = await axios.get('http://localhost:3000/get-data');
+       console.log('fetched data is : ', fetchedData);
+       setProgressData(fetchedData.data.data);
+      } catch(error){
+        console.error('There was an error in fetching the progress data', error);
+      }
+    }
+    fetchProgress();
+
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-6">
