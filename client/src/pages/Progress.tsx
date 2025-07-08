@@ -3,7 +3,7 @@ import EditProgress from '../components/EditProgress'
 import NewEntry from '../components/NewEntry'
 import { useEffect } from 'react'
 import axios from 'axios'
-
+const token = localStorage.getItem('token')
 
 interface Ientry {
   id: number
@@ -49,6 +49,10 @@ const handleAddNewEntry = async () => {
       date: newEntry.date,
       exercises: newEntry.exercises,
       protein: newEntry.protein,
+    },{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
 
     // Add the saved entry to state

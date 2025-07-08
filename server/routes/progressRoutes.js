@@ -1,10 +1,12 @@
 const progressModel = require('../mongoDB/progressSchema')
+const auth = require('../middleware/authMiddleware')
 
 module.exports = (app) => {
     //get all the data
-    app.get('/get-data', async (req, res) => {
+    app.get('/get-data',auth, async (req, res) => {
         try{
-            const fetchedData = await progressModel.find();
+            const userId = req.user.id;
+            const fetchedData = await progressModel.find({user : userId});
             //successful get request code is 200, for created it is 201
             res.status(200).json({
                 message: 'successfully retrieved data',
@@ -21,14 +23,15 @@ module.exports = (app) => {
 
    
     //add a new data
-    app.post('/add-data', async (req, res) => {
+    app.post('/add-data',auth, async (req, res) => {
         try {
             console.log('The req body is: ', req.body);
             const { date, exercises, protein } = req.body;
             const newdata = new progressModel({
                 date,
                 exercises,
-                protein
+                protein,
+                user: req.user.id
             })
             const savedData = await newdata.save();
             console.log('latest progress data was added ', savedData);
@@ -47,6 +50,6 @@ module.exports = (app) => {
 
     //update an existing data
     app.put('/edit-data/:id', (req, res) => {
-
+        
     })
 }

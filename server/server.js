@@ -7,12 +7,14 @@ const express = require('express')
 const app = express()
 const mongoConnect = require('./mongoDB/dbConnection')
 const progressRoutes = require('./routes/progressRoutes')
+const authRoutes = require('./routes/authRoutes')
 
 
 //middleware
 app.use(express.json());
 app.use(cors());
 progressRoutes(app);
+authRoutes(app);
 
 
 //mongodb connection
