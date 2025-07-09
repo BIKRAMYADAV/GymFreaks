@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import LogoutButton from "../components/LogoutButton"
 
 function Home() {
   return (
@@ -7,6 +8,7 @@ function Home() {
   className="relative h-screen bg-cover bg-center"
   style={{ backgroundImage: "url('/bg.jpg')" }}
 >
+  
   <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60"></div>
 
   <div className="relative z-10 text-white p-10">
@@ -32,6 +34,7 @@ function Home() {
             Profile
           </button>
         </Link>
+        <LogoutButton/>
       </div>
 </div>
 
