@@ -42,6 +42,7 @@ const handleNewChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 };
 
 const handleAddNewEntry = async () => {
+  console.log('add data is hit')
   if (!newEntry.date || !newEntry.exercises) return;
 
   try {
@@ -104,7 +105,11 @@ const handleAddNewEntry = async () => {
   useEffect(() => {
     const fetchProgress = async () => {
       try{
-       const fetchedData = await axios.get('http://localhost:3000/get-data');
+       const fetchedData = await axios.get('http://localhost:3000/get-data',{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+       });
        console.log('fetched data is : ', fetchedData);
        setProgressData(fetchedData.data.data);
       } catch(error){
@@ -112,7 +117,6 @@ const handleAddNewEntry = async () => {
       }
     }
     fetchProgress();
-
   }, [])
 
   return (

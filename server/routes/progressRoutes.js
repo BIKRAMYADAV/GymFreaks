@@ -5,8 +5,8 @@ module.exports = (app) => {
     //get all the data
     app.get('/get-data',auth, async (req, res) => {
         try{
-            const userId = req.user.id;
-            const fetchedData = await progressModel.find({user : userId});
+            const userEmail = req.user.email;
+            const fetchedData = await progressModel.find({user : userEmail});
             //successful get request code is 200, for created it is 201
             res.status(200).json({
                 message: 'successfully retrieved data',
@@ -24,6 +24,7 @@ module.exports = (app) => {
    
     //add a new data
     app.post('/add-data',auth, async (req, res) => {
+        console.log('add data is hit');
         try {
             console.log('The req body is: ', req.body);
             const { date, exercises, protein } = req.body;
@@ -31,7 +32,7 @@ module.exports = (app) => {
                 date,
                 exercises,
                 protein,
-                user: req.user.id
+                user: req.user.email
             })
             const savedData = await newdata.save();
             console.log('latest progress data was added ', savedData);
