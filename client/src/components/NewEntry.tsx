@@ -11,7 +11,7 @@ function NewEntry({newEntry,
            <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
         <h3 className="text-2xl font-bold mb-4 text-gray-800">Log New Entry</h3>
-        <label className="block mb-2 text-sm font-medium text-gray-700">Date</label>
+        <label className="block mb-2 text-sm font-medium text-black">Date</label>
         <input
           type="date"
           name="date"
@@ -20,7 +20,7 @@ function NewEntry({newEntry,
           className="w-full p-2 mb-4 border border-gray-300 rounded"
         />
 
-        <label className="block mb-2 text-sm font-medium text-gray-700">Exercises</label>
+        <label className="block mb-2 text-sm font-medium text-black">Exercises</label>
         <input
           type="text"
           name="exercises"
@@ -29,7 +29,7 @@ function NewEntry({newEntry,
           className="w-full p-2 mb-4 border border-gray-300 rounded"
         />
 
-        <label className="block mb-2 text-sm font-medium text-gray-700">Protein Intake (g)</label>
+        <label className="block mb-2 text-sm font-medium text-black">Protein Intake (g)</label>
         <input
           type="number"
           name="protein"
@@ -41,15 +41,15 @@ function NewEntry({newEntry,
         <div className="flex justify-end gap-2 mt-4">
           <button
             onClick={() => setNewEntryModalOpen(false)}
-            className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+            className="px-4  bg-red-500 text-white rounded hover:bg-red-600 transition"
           >
             Cancel
           </button>
           <button
             onClick={handleAddNewEntry}
-            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+            className='px-4  bg-red-500 text-white rounded hover:bg-red-600 transition '
           >
-            Add Entry
+            Add
           </button>
         </div>
       </div>

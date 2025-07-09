@@ -44,7 +44,7 @@ const handleNewChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 const handleAddNewEntry = async () => {
   console.log('add data is hit')
   if (!newEntry.date || !newEntry.exercises) return;
-
+  console.log('The token is: ', token);
   try {
     const response = await axios.post('http://localhost:3000/add-data', {
       date: newEntry.date,
@@ -120,23 +120,23 @@ const handleAddNewEntry = async () => {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-6">
-      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
-        <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Daily Progress</h2>
+    <div className="min-h-screen bg-black py-10 px-6 ">
+      <div className="max-w-4xl mx-auto bg-black shadow-lg rounded-lg p-6">
+        <h2 className="text-3xl font-bold mb-6 text-center text-white">Daily Progress</h2>
 
         <div className="overflow-x-auto">
           <table className="w-full table-auto text-left border border-gray-200 rounded-md">
             <thead>
-              <tr className="bg-gray-200 text-gray-700">
+              <tr className="bg-white text-black">
                 <th className="p-4">Date</th>
                 <th className="p-4">Exercises</th>
                 <th className="p-4">Protein Intake (g)</th>
                 <th className="p-4">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className='text-white'>
               {progressData.map((entry) => (
-                <tr key={entry.id} className="border-t hover:bg-gray-50">
+                <tr key={entry.id} className="border-t">
                   <td className="p-4">{entry.date}</td>
                   <td className="p-4">{entry.exercises}</td>
                   <td className="p-4">{entry.protein}</td>
@@ -158,9 +158,9 @@ const handleAddNewEntry = async () => {
         <div className="flex justify-center mt-8">
          <button
   onClick={() => setNewEntryModalOpen(true)}
-  className="px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-teal-400 text-white text-lg font-semibold shadow-md hover:scale-105 transition"
+  className='bg-red-500 text-white px-2 h-7 rounded hover:bg-red-600 transition'
 >
-  ➕ Log New Entry
+   Log New Entry
 </button>
 
         </div>
