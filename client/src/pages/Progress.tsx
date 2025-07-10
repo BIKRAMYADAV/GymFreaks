@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import EditProgress from '../components/EditProgress'
 import NewEntry from '../components/NewEntry'
 import { useEffect } from 'react'
+import { IoArrowBackOutline } from "react-icons/io5";
 import axios from 'axios'
-const token = localStorage.getItem('token')
+import { Link } from 'react-router-dom';
+
 
 interface Ientry {
   id: number
@@ -11,20 +13,14 @@ interface Ientry {
   exercises: string
   protein: number
 }
-
-const progressDataInitial: Ientry[] = [
-  { id: 1, date: '2025-07-01', exercises: 'Push-ups, Pull-ups', protein: 80 },
-  { id: 2, date: '2025-07-02', exercises: 'Squats, Lunges', protein: 90 },
-  { id: 3, date: '2025-07-03', exercises: 'Deadlifts, Bench Press', protein: 100 },
-]
-
-
-
-
+//how I fixed the stale state issue:
+//Even though I removed token from the local storage, Progress.tsx was still using the old token
+//as it was stored in constant, needing to refresh
+//so I am not going to store instead fetch dynamically instead
 function Progress() {
   const [editing, setEditing] = useState<Ientry | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
-  const [progressData, setProgressData] = useState<Ientry[]>(progressDataInitial)
+  const [progressData, setProgressData] = useState<Ientry[]>([]);
 const [newEntryModalOpen, setNewEntryModalOpen] = useState(false);
 const [newEntry, setNewEntry] = useState<Ientry>({
   id: Date.now(),
@@ -32,7 +28,11 @@ const [newEntry, setNewEntry] = useState<Ientry>({
   exercises: '',
   protein: 0,
 });
+const [loading, setLoading] = useState(true);
 
+
+
+//functions start from here
 const handleNewChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   const { name, value } = e.target;
   setNewEntry((prev) => ({
@@ -44,7 +44,7 @@ const handleNewChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 const handleAddNewEntry = async () => {
   console.log('add data is hit')
   if (!newEntry.date || !newEntry.exercises) return;
-  console.log('The token is: ', token);
+ 
   try {
     const response = await axios.post('http://localhost:3000/add-data', {
       date: newEntry.date,
@@ -52,7 +52,7 @@ const handleAddNewEntry = async () => {
       protein: newEntry.protein,
     },{
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     });
 
@@ -107,23 +107,35 @@ const handleAddNewEntry = async () => {
       try{
        const fetchedData = await axios.get('http://localhost:3000/get-data',{
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       }
        });
        console.log('fetched data is : ', fetchedData);
        setProgressData(fetchedData.data.data);
       } catch(error){
         console.error('There was an error in fetching the progress data', error);
+      } finally{
+        setLoading(false);
       }
     }
     fetchProgress();
   }, [])
 
+
   return (
+    
     <div className="min-h-screen bg-black py-10 px-6 ">
       <div className="max-w-4xl mx-auto bg-black shadow-lg rounded-lg p-6">
-        <h2 className="text-3xl font-bold mb-6 text-center text-white">Daily Progress</h2>
+        <Link to='/'>
+        <IoArrowBackOutline className='text-red-500 hover:text-red-700 text-2xl'/>
+        </Link>
+        
 
+        <h2 className="text-3xl font-bold mb-6 text-center text-white">Daily Progress</h2>
+      
+            
+        
+      
         <div className="overflow-x-auto">
           <table className="w-full table-auto text-left border border-gray-200 rounded-md">
             <thead>
@@ -134,23 +146,34 @@ const handleAddNewEntry = async () => {
                 <th className="p-4">Actions</th>
               </tr>
             </thead>
-            <tbody className='text-white'>
-              {progressData.map((entry) => (
-                <tr key={entry.id} className="border-t">
-                  <td className="p-4">{entry.date}</td>
-                  <td className="p-4">{entry.exercises}</td>
-                  <td className="p-4">{entry.protein}</td>
-                  <td className="p-4">
-                    <button
-                      onClick={() => handleEdit(entry)}
-                      className="text-blue-600 hover:text-blue-800 font-medium transition"
-                    >
-                      ✏️ Edit
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+            <tbody className="text-white">
+  {loading ? (
+    <tr>
+      <td colSpan={4} className="p-4 text-center">Loading progress data...</td>
+    </tr>
+  ) : progressData.length === 0 ? (
+    <tr>
+      <td colSpan={4} className="p-4 text-center">No progress data found.</td>
+    </tr>
+  ) : (
+    progressData.map((entry) => (
+      <tr key={entry.id} className="border-t">
+        <td className="p-4">{entry.date}</td>
+        <td className="p-4">{entry.exercises}</td>
+        <td className="p-4">{entry.protein}</td>
+        <td className="p-4">
+          <button
+            onClick={() => handleEdit(entry)}
+            className="text-blue-600 hover:text-blue-800 font-medium transition"
+          >
+            ✏️ Edit
+          </button>
+        </td>
+      </tr>
+    ))
+  )}
+</tbody>
+
           </table>
         </div>
 
