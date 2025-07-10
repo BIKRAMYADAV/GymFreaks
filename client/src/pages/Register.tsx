@@ -20,7 +20,7 @@ function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3000/register', form);
+      await axios.post('http://localhost:3000/register', form);
     //   login(res.data.user, res.data.token); // Save to context
       navigate('/login');
     } catch (err) { 
