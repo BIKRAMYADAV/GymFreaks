@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 
@@ -29,15 +29,15 @@ function Register() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-sm mx-auto p-4 bg-white shadow-md rounded">
-      <h2 className="text-xl font-bold mb-4">Register</h2>
+    <div className='h-screen flex justify-center items-center bg-black'>
+    <form onSubmit={handleSubmit} className="max-w-sm mx-auto p-4 bg-black text-white shadow-md rounded">
       <input
         type="text"
         name="name"
         value={form.name}
         onChange={handleChange}
         placeholder="Name"
-        className="block w-full mb-3 border p-2"
+        className="block w-full mb-3 border border-white rounded-2xl p-2"
       />
       <input
         type="email"
@@ -45,7 +45,7 @@ function Register() {
         value={form.email}
         onChange={handleChange}
         placeholder="Email"
-        className="block w-full mb-3 border p-2"
+        className="block w-full mb-3 border rounded-2xl p-2"
       />
       <input
         type="password"
@@ -53,12 +53,18 @@ function Register() {
         value={form.password}
         onChange={handleChange}
         placeholder="Password"
-        className="block w-full mb-3 border p-2"
+        className="block w-full mb-3 border rounded-2xl p-2"
       />
-      <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">
+      <div className='flex flex-col justify-center items-center'>
+      <button type="submit" className="bg-red-500 hover:bg-red-700 text-white px-4 py-1 rounded">
         Register
       </button>
+      <p className='text-blue-400 hover:text-blue-600'>
+        <Link to='/login'>or login instead ?</Link>
+      </p>
+      </div>
     </form>
+    </div>
   );
 }
 
