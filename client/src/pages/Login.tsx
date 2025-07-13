@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { apiUrl } from '../utils';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -10,7 +11,7 @@ function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3000/login', { email, password });
+      const res = await axios.post(apiUrl+'login', { email, password });
       localStorage.setItem('token', res.data.token);
       navigate('/home');
     } catch (err) {

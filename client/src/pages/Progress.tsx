@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { IoArrowBackOutline } from "react-icons/io5";
 import axios from 'axios'
 import { Link } from 'react-router-dom';
+import { apiUrl } from '../utils';
 
 
 interface Ientry {
@@ -46,7 +47,7 @@ const handleAddNewEntry = async () => {
   if (!newEntry.date || !newEntry.exercises) return;
  
   try {
-    const response = await axios.post('http://localhost:3000/add-data', {
+    const response = await axios.post(apiUrl+'add-data', {
       date: newEntry.date,
       exercises: newEntry.exercises,
       protein: newEntry.protein,
@@ -105,7 +106,7 @@ const handleAddNewEntry = async () => {
   useEffect(() => {
     const fetchProgress = async () => {
       try{
-       const fetchedData = await axios.get('http://localhost:3000/get-data',{
+       const fetchedData = await axios.get(apiUrl+'get-data',{
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }

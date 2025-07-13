@@ -1,0 +1,1 @@
+export const apiUrl = 'https://gymfreaks-backend.onrender.com/'

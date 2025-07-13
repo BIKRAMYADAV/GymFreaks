@@ -7,7 +7,7 @@ function LogoutButton() {
     const handleLogout = () => {
         console.log('handle logout was hit')
         localStorage.removeItem('token')
-        navigate('/login')
+        navigate('/')
     }
 
   return (

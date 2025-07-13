@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 // import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { apiUrl } from '../utils';
 
 function Register() {
 //   const { login } = useAuth();
@@ -20,7 +21,7 @@ function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3000/register', form);
+      await axios.post(apiUrl+'register', form);
     //   login(res.data.user, res.data.token); // Save to context
       navigate('/');
     } catch (err) { 
