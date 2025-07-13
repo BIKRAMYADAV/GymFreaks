@@ -17,7 +17,6 @@ function Login() {
       navigate('/home');
       toast.success('successfully logged in !')
     } catch (err) {
-      alert('Invalid login');
       toast.error('Login failed !')
     }
   };

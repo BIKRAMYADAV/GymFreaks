@@ -11,8 +11,15 @@ const authRoutes = require('./routes/authRoutes')
 
 
 //middleware
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://gymfreaks.vercel.app'
+];
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: allowedOrigins, // ✅ frontend domain
+  credentials: true
+}));
 progressRoutes(app);
 authRoutes(app);
 
