@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 // import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 import { apiUrl } from '../utils';
+import { toast } from 'react-toastify';
 
 function Register() {
 //   const { login } = useAuth();
@@ -22,10 +23,10 @@ function Register() {
     e.preventDefault();
     try {
       await axios.post(apiUrl+'register', form);
-    //   login(res.data.user, res.data.token); // Save to context
       navigate('/');
+      toast.success('registration successful !');
     } catch (err) { 
-      alert('Registration failed');
+      toast.error('registration failed !');
     }
   };
 

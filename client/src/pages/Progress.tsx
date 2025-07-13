@@ -6,6 +6,7 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import axios from 'axios'
 import { Link } from 'react-router-dom';
 import { apiUrl } from '../utils';
+import { toast } from 'react-toastify';
 
 
 interface Ientry {
@@ -69,8 +70,10 @@ const handleAddNewEntry = async () => {
     });
 
     setNewEntryModalOpen(false);
+    toast.success('new data added successfully')
   } catch (error) {
     console.error('There was an error in adding the new entry', error);
+    toast.error('failed to add new data')
   }
 };
 
@@ -112,8 +115,10 @@ const handleAddNewEntry = async () => {
       }
        });
        console.log('fetched data is : ', fetchedData);
+       toast.success('fetched data successfully from the database')
        setProgressData(fetchedData.data.data);
       } catch(error){
+        toast.error('failed to fetch data from the database')
         console.error('There was an error in fetching the progress data', error);
       } finally{
         setLoading(false);
@@ -127,7 +132,7 @@ const handleAddNewEntry = async () => {
     
     <div className="min-h-screen bg-black py-10 px-6 ">
       <div className="max-w-4xl mx-auto bg-black shadow-lg rounded-lg p-6">
-        <Link to='/'>
+        <Link to='/home'>
         <IoArrowBackOutline className='text-red-500 hover:text-red-700 text-2xl'/>
         </Link>
         

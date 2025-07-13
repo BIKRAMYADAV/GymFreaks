@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 function LogoutButton() {
     const navigate = useNavigate();
@@ -8,6 +9,7 @@ function LogoutButton() {
         console.log('handle logout was hit')
         localStorage.removeItem('token')
         navigate('/')
+        toast.success('logged out successfully')
     }
 
   return (
