@@ -22,7 +22,7 @@ function Register() {
     try {
       await axios.post('http://localhost:3000/register', form);
     //   login(res.data.user, res.data.token); // Save to context
-      navigate('/login');
+      navigate('/');
     } catch (err) { 
       alert('Registration failed');
     }
@@ -60,7 +60,7 @@ function Register() {
         Register
       </button>
       <p className='text-blue-400 hover:text-blue-600'>
-        <Link to='/login'>or login instead ?</Link>
+        <Link to='/'>or login instead ?</Link>
       </p>
       </div>
     </form>
