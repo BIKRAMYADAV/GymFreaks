@@ -27,7 +27,7 @@ module.exports = (app) => {
             console.error('There was an error in registering the user: ', error);
             res.status(500).json({
                 message: 'registration failed',
-                error
+                error: `The error is: ${error}`
             })
         }
     })
