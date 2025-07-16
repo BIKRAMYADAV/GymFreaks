@@ -17,8 +17,7 @@ const allowedOrigins = [
 ];
 app.use(express.json());
 app.use(cors({
-  origin: allowedOrigins, // ✅ frontend domain
-  credentials: true
+  origin: '*'
 }));
 progressRoutes(app);
 authRoutes(app);
