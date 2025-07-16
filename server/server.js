@@ -9,19 +9,10 @@ const mongoConnect = require('./mongoDB/dbConnection')
 const progressRoutes = require('./routes/progressRoutes')
 const authRoutes = require('./routes/authRoutes')
 
-app.use(cors({
-  origin: 'https://gym-freaks.vercel.app', // or use function for dynamic origin
-  credentials: true
-}));
-//middleware
-// const allowedOrigins = [
-//   'http://localhost:5173',
-//   'https://gymfreaks.vercel.app'
-// ];
+app.use(cors());
+
 app.use(express.json());
-// app.use(cors({
-//   origin: '*'
-// }));
+
 progressRoutes(app);
 authRoutes(app);
 
