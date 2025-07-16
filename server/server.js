@@ -10,7 +10,7 @@ const progressRoutes = require('./routes/progressRoutes')
 const authRoutes = require('./routes/authRoutes')
 
 app.use(cors({
-  origin: 'https://your-frontend-domain.com', // or use function for dynamic origin
+  origin: 'https://gym-freaks.vercel.app', // or use function for dynamic origin
   credentials: true
 }));
 //middleware
