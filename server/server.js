@@ -8,6 +8,7 @@ const app = express()
 const mongoConnect = require('./mongoDB/dbConnection')
 const progressRoutes = require('./routes/progressRoutes')
 const authRoutes = require('./routes/authRoutes')
+const gymRoutes = require('./routes/gymRoutes')
 
 app.use(cors());
 
@@ -15,7 +16,7 @@ app.use(express.json());
 
 progressRoutes(app);
 authRoutes(app);
-
+gymRoutes(app);
 
 //mongodb connection
 mongoConnect(URI);

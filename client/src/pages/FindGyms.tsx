@@ -21,18 +21,24 @@ interface GymFeature {
 function FindGyms() {
     const [position, setPosition] = useState<iposition | null>(null)
     const [gyms, setGyms] = useState<GymFeature[] | []>([])
-
+   
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
             async (pos) => {
-                const lat = pos.coords.latitude
+                try{
+    const lat = pos.coords.latitude
                 const long = pos.coords.longitude
                 setPosition([lat,long])
 
                 const res = await axios.get(apiUrl+'gym', {
                         params:{lat, long}
                 });
+                console.log('The data has been fetched,',res.data);
                 setGyms(res.data.features || []);
+                } catch(error){
+                    console.log('There was an error in fetching the backend data', error);
+                }
+            
             }
         )
     }, [])
