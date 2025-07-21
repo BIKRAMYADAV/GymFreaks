@@ -6,6 +6,7 @@ import Login from "./pages/Login"
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 import FindGyms from "./pages/FindGyms"
+import Profile from "./pages/Profile"
 function App() {
  
 
@@ -17,7 +18,7 @@ function App() {
     <Route path="/home" element={<Home/>}/>
     <Route path="/progress" element={<Progress/>}/>
     <Route path="/gyms" element={<FindGyms/>}/>
-    <Route path="/profile" element={<h1>bikram</h1>}/>
+    <Route path="/profile" element={<Profile/>}/>
     </Routes>
     <ToastContainer position="top-center" autoClose={3000} />
  </div>

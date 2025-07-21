@@ -29,7 +29,7 @@ function Profile() {
 
     const handleSave = async () => {
         try{
-        const response = await axios.patch('/profile', formData);
+        const response = await axios.put('/profile', formData);
         if(response){
             console.log('data updated successfully');
         }

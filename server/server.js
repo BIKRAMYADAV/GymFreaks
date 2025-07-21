@@ -9,6 +9,7 @@ const mongoConnect = require('./mongoDB/dbConnection')
 const progressRoutes = require('./routes/progressRoutes')
 const authRoutes = require('./routes/authRoutes')
 const gymRoutes = require('./routes/gymRoutes')
+const profileRoute = require('./routes/profileRoute')
 
 app.use(cors());
 
@@ -17,6 +18,7 @@ app.use(express.json());
 progressRoutes(app);
 authRoutes(app);
 gymRoutes(app);
+profileRoute(app);
 
 //mongodb connection
 mongoConnect(URI);
