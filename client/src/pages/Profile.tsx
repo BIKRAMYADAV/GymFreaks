@@ -16,9 +16,15 @@ function Profile() {
     useEffect( () => {
         const getProfile = async () => {
             try{
-            const response = await axios.get(apiUrl+'/profile');
-            setUser(response.data);
-            setFormData(response.data);
+              console.log('get profile has been called')
+            const response = await axios.get(apiUrl+'profile', {
+              headers: {
+                  Authorization: `Bearer ${localStorage.getItem('token')}`
+              }
+            });
+            console.log('We recieved an appropriate response: ', response.data);
+            setUser(response.data.data);
+            setFormData(response.data.data);
         }catch(error){
             console.log('There was an error in fetching user profile', error);
         }
@@ -29,11 +35,11 @@ function Profile() {
 
     const handleSave = async () => {
         try{
-        const response = await axios.put('/profile', formData);
+        const response = await axios.put(apiUrl+'profile', formData);
         if(response){
             console.log('data updated successfully');
         }
-        setUser(response.data);
+        setUser(response.data.profile);
         setEditMode(false);
         } catch (error){
             console.error('There was an error in updating the information', error);

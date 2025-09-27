@@ -97,12 +97,41 @@ const handleAddNewEntry = async () => {
     setModalOpen(true)
   }
 
-  const handleSave = () => {
-    if (!editing) return
-    setProgressData((prev) =>
-      prev.map((item) => (item.id === editing.id ? editing : item))
-    )
-    setModalOpen(false)
+  // const handleSave = () => {
+  //   if (!editing) return
+  //   setProgressData((prev) =>
+  //     prev.map((item) => (item.id === editing.id ? editing : item))
+  //   )
+  //   setModalOpen(false)
+  // }
+  // let id = 1
+
+  const handleSave = async () => {
+    if(!editing) return ;
+
+    try{
+      const response = await axios.put(apiUrl+'edit-data/'+editing.id, {
+        date: editing.date,
+        exercises : editing.exercises,
+        protein : editing.protein
+      },
+    {
+      headers : {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    setProgressData((prev) => 
+    prev.map((item) => 
+    item.id === editing.id ? response.data.data : item))
+
+    toast.success('Progress updated successfully');
+    }catch(error){
+      console.log('There was an error in updating the data', error);
+      toast.error('Failed to update progress')
+    } finally{
+    setModalOpen(false);
+      setEditing(null);
+    }
   }
 
   //useeffect
