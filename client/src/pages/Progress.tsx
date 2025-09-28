@@ -25,7 +25,7 @@ function Progress() {
   const [progressData, setProgressData] = useState<Ientry[]>([]);
 const [newEntryModalOpen, setNewEntryModalOpen] = useState(false);
 const [newEntry, setNewEntry] = useState<Ientry>({
-  _id: 0,
+  _id: '',
   date: '',
   exercises: '',
   protein: 0,

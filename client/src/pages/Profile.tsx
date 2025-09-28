@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
 import type { IUserProfile } from "../interfaces/profile";
 import axios from "axios";
+import { IoArrowBackOutline } from "react-icons/io5";
 import { apiUrl } from "../utils";
+import { Link } from "react-router-dom";
 
 
 function Profile() {
@@ -51,69 +53,83 @@ function Profile() {
         Loading...
     </div>
 
-  return (
-        <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded-xl mt-10">
-      <div className="flex flex-col items-center space-y-4">
-        <img
-          src={user.profileImage || '/default-avatar.png'}
-          alt="Profile"
-          className="w-24 h-24 rounded-full object-cover"
-        />
-        {editMode ? (
-          <>
-            <input
-              type="text"
-              name="name"
-              value={formData.name || ''}
-              onChange={handleChange}
-              className="border p-2 rounded w-full"
-            />
-            <textarea
-              name="bio"
-              rows={3}
-              value={formData.bio || ''}
-              onChange={handleChange}
-              className="border p-2 rounded w-full"
-              placeholder="Bio"
-            />
-            <input
-              type="text"
-              name="phone"
-              value={formData.phone || ''}
-              onChange={handleChange}
-              className="border p-2 rounded w-full"
-              placeholder="Phone"
-            />
+return (
+  <div className="min-h-screen w-full bg-black text-white flex flex-col">
+    {/* Top bar */}
+    <div className="flex items-center p-4">
+      <Link to="/home">
+        <IoArrowBackOutline className="text-red-500 hover:text-red-700 text-2xl" />
+      </Link>
+      <h1 className="flex-1 text-center text-3xl font-bold">User Profile</h1>
+    </div>
+
+    {/* Profile content */}
+    <div className="flex flex-col items-center flex-1 px-6 pb-10">
+      <img
+        src={user.profileImage || "/default-avatar.webp"}
+        alt="Profile"
+        className="w-28 h-28 rounded-full object-cover shadow-lg"
+      />
+
+      {editMode ? (
+        <div className="mt-6 w-full max-w-md space-y-4">
+          <input
+            type="text"
+            name="name"
+            value={formData.name || ""}
+            onChange={handleChange}
+            className="border p-2 rounded w-full text-gray-400"
+            placeholder="Name"
+          />
+          <textarea
+            name="bio"
+            rows={3}
+            value={formData.bio || ""}
+            onChange={handleChange}
+            className="border p-2 rounded w-full text-gray-400"
+            placeholder="Bio"
+          />
+          <input
+            type="text"
+            name="phone"
+            value={formData.phone || ""}
+            onChange={handleChange}
+            className="border p-2 rounded w-full text-gray-400"
+            placeholder="Phone"
+          />
+          <div className="flex justify-between">
             <button
               onClick={handleSave}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 cursor-pointer"
             >
               Save
             </button>
             <button
               onClick={() => setEditMode(false)}
-              className="text-gray-500 underline"
+              className="text-gray-400 underline cursor-pointer"
             >
               Cancel
             </button>
-          </>
-        ) : (
-          <>
-            <h2 className="text-2xl font-bold">{user.name}</h2>
-            <p className="text-gray-600">{user.bio || "No bio available"}</p>
-            <p className="text-sm text-gray-500">{user.email}</p>
-            <p className="text-sm text-gray-500">{user.phone || "No phone provided"}</p>
-            <button
-              onClick={() => setEditMode(true)}
-              className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            >
-              Edit Profile
-            </button>
-          </>
-        )}
-      </div>
+          </div>
+        </div>
+      ) : (
+        <div className="mt-6 text-center space-y-2">
+          <h2 className="text-2xl font-bold">{user.name}</h2>
+          <p className="text-gray-300">{user.bio || "No bio available"}</p>
+          <p className="text-sm text-gray-400">{user.email}</p>
+          <p className="text-sm text-gray-400">{user.phone || "No phone provided"}</p>
+          <button
+            onClick={() => setEditMode(true)}
+            className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 cursor-pointer"
+          >
+            Edit Profile
+          </button>
+        </div>
+      )}
     </div>
-  )
+  </div>
+);
+
 }
 
 export default Profile
