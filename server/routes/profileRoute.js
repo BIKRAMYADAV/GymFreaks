@@ -4,8 +4,9 @@ const auth = require('../middleware/authMiddleware')
 module.exports = (app) => {
     app.get('/profile',auth,async (req, res) => {
         try{
-            const {email} = req.user.email;
+            const email = req.user.email;
             const fetchedData = await Profile.find({email})
+            console.log('The fetched data is : ', fetchedData)
             res.status(200).json({
                 message : 'Profile data fetched successfully',
                 data : fetchedData
@@ -19,9 +20,11 @@ module.exports = (app) => {
         }
     })
 
-    app.put('/profile',async (req, res) => {
+    app.put('/profile',auth,async (req, res) => {
+        console.log('backend was hit')
         try {
-            const {email, ...data} = req.body;
+            const email = req.user.email;
+            const {...data} = req.body;
             const profile = await Profile.findOneAndUpdate({email}, data, {
                 new : true,
                 runValidators : true,

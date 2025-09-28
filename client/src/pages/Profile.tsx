@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 
 function Profile() {
-    const [user, setUser] = useState<IUserProfile | null>(null);
+    const [user, setUser] = useState<IUserProfile[] | null>(null);
     const [editMode, setEditMode] = useState(false);
     const [formData, setFormData] = useState<Partial<IUserProfile>>({});
 
@@ -25,6 +25,7 @@ function Profile() {
               }
             });
             console.log('We recieved an appropriate response: ', response.data);
+            console.log('response data is ', response.data.data);
             setUser(response.data.data);
             setFormData(response.data.data);
         }catch(error){
@@ -37,7 +38,11 @@ function Profile() {
 
     const handleSave = async () => {
         try{
-        const response = await axios.put(apiUrl+'profile', formData);
+        const response = await axios.put(apiUrl+'profile', formData,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
         if(response){
             console.log('data updated successfully');
         }
@@ -66,7 +71,7 @@ return (
     {/* Profile content */}
     <div className="flex flex-col items-center flex-1 px-6 pb-10">
       <img
-        src={user.profileImage || "/default-avatar.webp"}
+        src={user[0].profileImage || "/default-avatar.webp"}
         alt="Profile"
         className="w-28 h-28 rounded-full object-cover shadow-lg"
       />
@@ -114,10 +119,10 @@ return (
         </div>
       ) : (
         <div className="mt-6 text-center space-y-2">
-          <h2 className="text-2xl font-bold">{user.name}</h2>
-          <p className="text-gray-300">{user.bio || "No bio available"}</p>
-          <p className="text-sm text-gray-400">{user.email}</p>
-          <p className="text-sm text-gray-400">{user.phone || "No phone provided"}</p>
+          <h2 className="text-2xl font-bold">{user[0].name}</h2>
+          <p className="text-gray-300">{user[0].bio || "No bio available"}</p>
+          <p className="text-sm text-gray-400">{user[0].email}</p>
+          <p className="text-sm text-gray-400">{user[0].phone || "No phone provided"}</p>
           <button
             onClick={() => setEditMode(true)}
             className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 cursor-pointer"
