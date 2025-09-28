@@ -1,5 +1,5 @@
 export interface Ientry {
-  id: number
+  _id: string
   date: string
   exercises: string
   protein: number

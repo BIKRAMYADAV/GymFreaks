@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 
 
 interface Ientry {
-  id: number
+  _id: string
   date: string
   exercises: string
   protein: number
@@ -25,7 +25,7 @@ function Progress() {
   const [progressData, setProgressData] = useState<Ientry[]>([]);
 const [newEntryModalOpen, setNewEntryModalOpen] = useState(false);
 const [newEntry, setNewEntry] = useState<Ientry>({
-  id: Date.now(),
+  _id: 0,
   date: '',
   exercises: '',
   protein: 0,
@@ -63,7 +63,7 @@ const handleAddNewEntry = async () => {
 
     // Reset input
     setNewEntry({
-      id: Date.now(),
+      _id: '',
       date: '',
       exercises: '',
       protein: 0,
@@ -110,7 +110,7 @@ const handleAddNewEntry = async () => {
     if(!editing) return ;
 
     try{
-      const response = await axios.put(apiUrl+'edit-data/'+editing.id, {
+      const response = await axios.put(apiUrl+'edit-data/'+editing._id, {
         date: editing.date,
         exercises : editing.exercises,
         protein : editing.protein
@@ -122,7 +122,7 @@ const handleAddNewEntry = async () => {
     })
     setProgressData((prev) => 
     prev.map((item) => 
-    item.id === editing.id ? response.data.data : item))
+    item._id === editing._id? response.data.data : item))
 
     toast.success('Progress updated successfully');
     }catch(error){
@@ -192,7 +192,7 @@ const handleAddNewEntry = async () => {
     </tr>
   ) : (
     progressData.map((entry) => (
-      <tr key={entry.id} className="border-t">
+      <tr key={entry._id} className="border-t">
         <td className="p-4">{entry.date}</td>
         <td className="p-4">{entry.exercises}</td>
         <td className="p-4">{entry.protein}</td>

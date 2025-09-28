@@ -66,7 +66,7 @@ module.exports = (app) => {
         progressData.exercises = exercises;
         progressData.protein = protein;
 
-        const updatedData = progressData.save();
+        const updatedData = await progressData.save();
         res.status(200).json({
             message : 'Progress data updated successfully',
             data : updatedData
