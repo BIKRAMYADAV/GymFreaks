@@ -3,6 +3,8 @@ import axios from 'axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { apiUrl } from "../utils"
+import { Link } from 'react-router-dom';
+import { IoArrowBackOutline } from 'react-icons/io5';
 
 type iposition = [number, number]
 
@@ -44,8 +46,11 @@ function FindGyms() {
     }, [])
 
   return (
-     <div>
-      <h1 className="text-center">Nearby Gyms</h1>
+     <div className='bg-black text-white p-5'>
+        <Link to="/home">
+        <IoArrowBackOutline className="text-red-500 hover:text-red-700 text-2xl" />
+      </Link>
+      <h1 className="text-center p-2 text-3xl">Nearby Gyms</h1>
       {position && (
         <MapContainer center={position} zoom={14} style={{ height: '90vh' }}>
           <TileLayer
